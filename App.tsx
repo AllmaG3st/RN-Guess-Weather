@@ -1,6 +1,7 @@
-import {View, Text, SafeAreaView} from 'react-native';
+import {Text, SafeAreaView} from 'react-native';
 import React from 'react';
-import AppButton from './src/primitives/AppButton';
+
+import AppButton from '@primitives/AppButton';
 
 const App = () => {
   return (
