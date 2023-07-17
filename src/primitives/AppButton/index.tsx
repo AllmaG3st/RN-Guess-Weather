@@ -59,7 +59,7 @@ const AppButton = ({
       {loading ? (
         <ActivityIndicator size={'small'} />
       ) : (
-        <Text style={[styles.text, styles[`container_${type}`], textStyle]}>
+        <Text style={[styles.text, styles[`text_${type}`], textStyle]}>
           {title}
         </Text>
       )}

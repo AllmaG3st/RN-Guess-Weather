@@ -1,15 +1,17 @@
 import {StyleSheet} from 'react-native';
 
+import {COLORS} from '@constants/colors';
+
 export default StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   container_PRIMARY: {
-    backgroundColor: 'green',
+    backgroundColor: COLORS.EnglishViolet,
   },
   container_SECONDARY: {
-    borderColor: 'green',
+    borderColor: COLORS.EnglishViolet,
     borderWidth: 3,
   },
 
@@ -18,9 +20,9 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   text_PRIMARY: {
-    color: 'red',
+    color: COLORS.AppWhite,
   },
   text_SECONDARY: {
-    color: 'green',
+    color: COLORS.EnglishViolet,
   },
 });
