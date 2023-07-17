@@ -1,16 +1,9 @@
-import {SafeAreaView} from 'react-native';
 import React from 'react';
 
-import {FONTS} from '@constants/fonts';
-import {AppButton, AppText} from '@primitives';
+import Navigation from '@navigation';
 
 const App = () => {
-  return (
-    <SafeAreaView>
-      <AppText style={{fontFamily: FONTS.CaprasimoRegular}}>Aleko</AppText>
-      <AppButton title={'Hello'} onPress={() => {}} />
-    </SafeAreaView>
-  );
+  return <Navigation />;
 };
 
 export default App;

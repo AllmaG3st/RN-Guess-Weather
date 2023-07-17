@@ -22,7 +22,7 @@ interface Props extends PressableProps {
   type?: 'PRIMARY' | 'SECONDARY';
 }
 
-const AppButton = ({
+const AppButton: React.FC<Props> = ({
   title,
   onPressIn,
   onPressOut,
@@ -31,7 +31,7 @@ const AppButton = ({
   type = 'PRIMARY',
   loading = false,
   ...props
-}: Props) => {
+}) => {
   const opacity = useSharedValue(1);
 
   const _onPressIn: Props['onPressIn'] = event => {
@@ -46,7 +46,7 @@ const AppButton = ({
 
   return (
     <AnimatedPressable
-      android_ripple={{color: 'rgba(0, 0, 0, 0.1)', foreground: true}}
+      android_ripple={{color: 'rgba(255, 255, 255, 0.1)', foreground: true}}
       style={[
         styles.container,
         styles[`container_${type}`],

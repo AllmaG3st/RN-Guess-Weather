@@ -1,4 +1,31 @@
 module.exports = {
   root: true,
   extends: '@react-native',
+  parser: '@typescript-eslint/parser',
+  plugins: ['prettier', '@typescript-eslint'],
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+      rules: {
+        '@typescript-eslint/no-shadow': ['error'],
+        '@typescript-eslint/no-unused-vars': ['warn'],
+        'no-shadow': 'off',
+        'no-undef': 'off',
+        'spaced-comment': 'off',
+        'no-console': 'warn',
+        'consistent-return': 'off',
+        'func-names': 'off',
+        'object-shorthand': 'off',
+        'no-process-exit': 'off',
+        'no-param-reassign': 'off',
+        'no-return-await': 'off',
+        'no-underscore-dangle': 'off',
+        'class-methods-use-this': 'off',
+        'prettier/prettier': 'warn',
+        'prefer-destructuring': ['warn', {object: true, array: false}],
+        'prefer-const': 'off',
+        'no-unused-vars': ['warn', {argsIgnorePattern: 'req|res|next|val'}],
+      },
+    },
+  ],
 };
