@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 import {COLORS} from '@constants/colors';
+import {FONTS} from '@constants/fonts';
 
 export default StyleSheet.create({
   container: {
@@ -17,7 +18,7 @@ export default StyleSheet.create({
 
   text: {
     textTransform: 'uppercase',
-    fontWeight: 'bold',
+    fontFamily: FONTS.CaprasimoRegular,
   },
   text_PRIMARY: {
     color: COLORS.AppWhite,

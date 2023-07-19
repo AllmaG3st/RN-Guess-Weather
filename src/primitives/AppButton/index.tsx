@@ -8,15 +8,19 @@ import {
   TextStyle,
 } from 'react-native';
 
-import Animated, {useSharedValue, withTiming} from 'react-native-reanimated';
+import Animated, {
+  AnimatedStyleProp,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import styles from './styles';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface Props extends PressableProps {
-  title: string;
-  containerStyle?: PressableProps['style'];
+  title: string | number;
+  containerStyle?: AnimatedStyleProp<PressableProps['style']>;
   textStyle?: TextStyle;
   loading?: boolean;
   type?: 'PRIMARY' | 'SECONDARY';

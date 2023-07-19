@@ -22,6 +22,7 @@ module.exports = {
         'no-underscore-dangle': 'off',
         'class-methods-use-this': 'off',
         'prettier/prettier': 'warn',
+        'react-hooks/exhaustive-deps': 'warn',
         'prefer-destructuring': ['warn', {object: true, array: false}],
         'prefer-const': 'off',
         'no-unused-vars': ['warn', {argsIgnorePattern: 'req|res|next|val'}],

@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {HomeScreen} from '@screens';
+import {HomeScreen, QuizScreen} from '@screens';
 
 const MainStack = createNativeStackNavigator();
 
@@ -12,6 +12,7 @@ const MainStackNavigator = () => {
         headerShown: false,
       }}>
       <MainStack.Screen name="HomeScreen" component={HomeScreen} />
+      <MainStack.Screen name="QuizScreen" component={QuizScreen} />
     </MainStack.Navigator>
   );
 };

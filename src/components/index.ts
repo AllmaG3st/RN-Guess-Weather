@@ -1,1 +1,1 @@
-export {default as DifficultyButton} from './DifficultyButton';
+export {default as ChoiceButton} from './DifficultyButton';

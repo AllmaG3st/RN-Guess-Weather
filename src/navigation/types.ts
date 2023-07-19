@@ -3,6 +3,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type MainStackParamList = {
   HomeScreen: undefined;
+  QuizScreen: undefined;
 };
 
 export type MainStackNavigationGenericProp<

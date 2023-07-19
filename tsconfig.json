@@ -19,6 +19,8 @@
       "@assets/*": ["assets/*"],
       "@context": ["src/context"],
       "@context/*": ["src/context/*"],
+      "@data": ["src/data"],
+      "@data/*": ["src/data/*"],
       "@api": ["src/api"],
       "@api/*": ["src/api/*"]
     },

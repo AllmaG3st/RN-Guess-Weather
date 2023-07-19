@@ -1,5 +1,9 @@
 import React from 'react';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {
+  DefaultTheme,
+  NavigationContainer,
+  createNavigationContainerRef,
+} from '@react-navigation/native';
 
 import MainStackNavigator from './navigators/MainStackNavigator';
 
@@ -13,9 +17,11 @@ const NavigationTheme = {
   },
 };
 
+export const navigationRef = createNavigationContainerRef();
+
 const Navigation: React.FC = () => {
   return (
-    <NavigationContainer theme={NavigationTheme}>
+    <NavigationContainer ref={navigationRef} theme={NavigationTheme}>
       <MainStackNavigator />
     </NavigationContainer>
   );

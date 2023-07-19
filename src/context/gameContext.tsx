@@ -1,15 +1,22 @@
 import React, {useContext} from 'react';
 import {PropsWithChildren, createContext, useState} from 'react';
 
+import {navigationRef} from '@navigation';
 import cities from '../data/cityNames.json';
 import {CITIES_LENGTH, GAME_STATE} from './data';
-import {IGameComplexity, IGameContext} from './types';
 import {getSeveralCitiesWeather} from '@api/weather';
+import {IGameComplexity, IGameContext, IGameHistory} from './types';
 import {IGetWeatherByCityNameResponse} from '@api/types';
 
 export const GameContext = createContext<IGameContext>({
+  currentRound: 1,
+  loading: false,
+  gameState: GAME_STATE.easy,
   gameComplexity: 'easy',
   currentRoundVariants: [],
+  currentCorrectAnswer: undefined,
+  onNextRound: () => {},
+  restartGame: () => {},
   setGameComplexity: () => {},
   getRandomCities: () => {},
 });
@@ -19,9 +26,41 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [gameComplexity, setGameComplexity] = useState<IGameComplexity>('easy');
+
+  const [currentGameHistory, setCurrentGameHistory] = useState<IGameHistory[]>(
+    [],
+  );
+  const [currentRound, setCurrentRound] = useState(1);
   const [currentRoundVariants, setCurrentRoundVariants] = useState<
     IGetWeatherByCityNameResponse[]
   >([]);
+  const [currentCorrectAnswer, setCurrentCorrectAnswer] =
+    useState<IGetWeatherByCityNameResponse>();
+
+  const gameState = GAME_STATE[gameComplexity];
+
+  const onNextRound = () => {
+    setCurrentRound(prev => prev + 1);
+  };
+
+  const onAnswerChoose = (userAnswer: IGetWeatherByCityNameResponse) => {
+    setCurrentGameHistory(prev => [
+      ...prev,
+      {
+        variants: currentRoundVariants,
+        userAnswer: userAnswer,
+      },
+    ]);
+  };
+
+  const restartGame = () => {
+    setCurrentRoundVariants([]);
+    setCurrentRound(1);
+    navigationRef.reset({
+      index: 1,
+      routes: [{name: 'HomeScreen'}],
+    });
+  };
 
   const getRandomCities = async () => {
     setLoading(true);
@@ -41,21 +80,33 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
 
       const citiesWeather = await getSeveralCitiesWeather(randomCities);
 
+      const correctAnswer = citiesWeather.reduce((prev, current) =>
+        prev.temperature > current.temperature ? prev : current,
+      );
+
       setCurrentRoundVariants(citiesWeather);
+      setCurrentCorrectAnswer(correctAnswer);
     } catch (error) {
       console.warn('Error while fetching cities weather', error);
     } finally {
-      setLoading(false);
+      // Setting timeout because request is resolving too fast and loader is not visible
+      setTimeout(() => setLoading(false), 1000);
     }
   };
 
   return (
     <GameContext.Provider
       value={{
+        currentRound,
+        loading,
+        gameState,
         gameComplexity,
+        currentRoundVariants,
+        currentCorrectAnswer,
+        restartGame,
+        onNextRound,
         setGameComplexity,
         getRandomCities,
-        currentRoundVariants,
       }}>
       {children}
     </GameContext.Provider>
