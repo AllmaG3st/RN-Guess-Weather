@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 32,
+    paddingVertical: 24,
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: COLORS.EnglishViolet,

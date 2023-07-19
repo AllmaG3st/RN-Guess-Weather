@@ -1,5 +1,6 @@
 import {useGameContext} from '@context/gameContext';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
+import {QuizCardRef} from './types';
 
 const useQuizScreen = () => {
   const {
@@ -11,11 +12,29 @@ const useQuizScreen = () => {
     getRandomCities,
   } = useGameContext();
 
+  const cardRefs = useRef<QuizCardRef[]>([]);
+
+  const rotateAllCards = () => {
+    cardRefs.current.forEach((cardRef, index) => {
+      if (cardRef.rotateValue === 0) {
+        setTimeout(() => cardRef.onRotate(), (index + 1) * 200);
+      }
+    });
+  };
+
   useEffect(() => {
     getRandomCities();
   }, []);
 
-  return {gameState, loading, currentRound, restartGame, currentRoundVariants};
+  return {
+    gameState,
+    loading,
+    currentRound,
+    restartGame,
+    currentRoundVariants,
+    rotateAllCards,
+    cardRefs,
+  };
 };
 
 export default useQuizScreen;

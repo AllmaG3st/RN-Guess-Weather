@@ -1,5 +1,5 @@
 import React, {Key, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 
 import Animated, {
   useSharedValue,
@@ -34,9 +34,8 @@ const AnimatedSkeleton: React.FC<Props> = ({gameState}) => {
           style={[
             styles.cityButtonContainer,
             {backgroundColor: COLORS.LightGray, opacity},
-          ]}>
-          <Text> </Text>
-        </Animated.View>
+          ]}
+        />
       ))}
     </View>
   );
