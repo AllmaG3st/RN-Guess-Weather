@@ -18,7 +18,9 @@
       "@assets": ["assets"],
       "@assets/*": ["assets/*"],
       "@context": ["src/context"],
-      "@context/*": ["src/context/*"]
+      "@context/*": ["src/context/*"],
+      "@api": ["src/api"],
+      "@api/*": ["src/api/*"]
     },
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   }

@@ -11,7 +11,7 @@ import styles from './styles';
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
 const HomeScreen = () => {
-  const {headerTextOpacity} = useHomeScreen();
+  const {headerTextOpacity, onDifficultyChange} = useHomeScreen();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -22,9 +22,18 @@ const HomeScreen = () => {
       </View>
 
       <View style={styles.difficultyButtonsContainer}>
-        <DifficultyButton title="Easy" />
-        <DifficultyButton title="Medium" />
-        <DifficultyButton title="Hard" />
+        <DifficultyButton
+          title="Easy"
+          onPress={() => onDifficultyChange('easy')}
+        />
+        <DifficultyButton
+          title="Medium"
+          onPress={() => onDifficultyChange('medium')}
+        />
+        <DifficultyButton
+          title="Hard"
+          onPress={() => onDifficultyChange('hard')}
+        />
       </View>
     </SafeAreaView>
   );

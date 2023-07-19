@@ -1,8 +1,15 @@
 import {useCallback, useEffect} from 'react';
 import {useSharedValue, withRepeat, withTiming} from 'react-native-reanimated';
 
+import {IGameComplexity} from '@context/types';
+import {useGameContext} from '@context/gameContext';
+
 const useHomeScreen = () => {
+  const {setGameComplexity} = useGameContext();
   const headerTextOpacity = useSharedValue(1);
+
+  const onDifficultyChange = (difficulty: IGameComplexity) =>
+    setGameComplexity(difficulty);
 
   const toggleTextOpacity = useCallback(() => {
     headerTextOpacity.value = withRepeat(
@@ -16,7 +23,7 @@ const useHomeScreen = () => {
     toggleTextOpacity();
   }, [toggleTextOpacity]);
 
-  return {headerTextOpacity};
+  return {headerTextOpacity, onDifficultyChange};
 };
 
 export default useHomeScreen;
