@@ -1,4 +1,4 @@
-import React, {Key} from 'react';
+import React, {Key, memo} from 'react';
 import {View} from 'react-native';
 
 import uuid from 'react-native-uuid';
@@ -16,14 +16,7 @@ type Props = {
 };
 
 const Cards: React.FC<Props> = ({gameState}) => {
-  const {
-    loading,
-    currentRoundVariants,
-    cardRefs,
-    isFirstGuess,
-    toggleIsFirstGuess,
-    rotateAllCards,
-  } = useCards();
+  const {loading, currentRoundVariants, cardRefs, rotateAllCards} = useCards();
 
   if (loading) return <AnimatedSkeleton gameState={gameState} />;
 
@@ -36,8 +29,6 @@ const Cards: React.FC<Props> = ({gameState}) => {
             rotateAllCards={rotateAllCards}
             key={uuid.v4() as Key}
             name={name}
-            isFirstGuess={isFirstGuess}
-            toggleIsFirstGuess={toggleIsFirstGuess}
             temperature={temperature}
           />
         );
@@ -46,4 +37,4 @@ const Cards: React.FC<Props> = ({gameState}) => {
   );
 };
 
-export default Cards;
+export default memo(Cards);

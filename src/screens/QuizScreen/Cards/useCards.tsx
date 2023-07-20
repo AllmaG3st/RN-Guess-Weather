@@ -1,14 +1,18 @@
-import {useGameContext} from '@context/gameContext';
 import {QuizCardRef} from '../types';
 import {useRef} from 'react';
+import useGameStore from '@store/zustandStore';
+import {shallow} from 'zustand/shallow';
 
 const useCards = () => {
-  const {currentRoundVariants, loading} = useGameContext();
+  const {currentRoundVariants, loading} = useGameStore(
+    state => ({
+      currentRoundVariants: state.currentRoundVariants,
+      loading: state.loading,
+    }),
+    shallow,
+  );
 
   const cardRefs = useRef<QuizCardRef[]>([]);
-
-  const isFirstGuess = useRef(true);
-  const toggleIsFirstGuess = () => (isFirstGuess.current = false);
 
   const rotateAllCards = () => {
     cardRefs.current.forEach((cardRef, index) => {
@@ -22,8 +26,6 @@ const useCards = () => {
     currentRoundVariants,
     loading,
     cardRefs,
-    isFirstGuess,
-    toggleIsFirstGuess,
     rotateAllCards,
   };
 };

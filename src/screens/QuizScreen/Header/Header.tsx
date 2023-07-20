@@ -12,7 +12,8 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({gameState}) => {
-  const {currentRound, restartGame} = useHeader();
+  const {currentRound, restartGame, currentMistakes, isAnswerChosen} =
+    useHeader();
 
   return (
     <View style={styles.headerContainer}>
@@ -40,6 +41,29 @@ const Header: React.FC<Props> = ({gameState}) => {
 
         <AppButton
           title="Restart"
+          containerStyle={styles.restartButtonContainer}
+          textStyle={styles.restartButtonText}
+          onPress={restartGame}
+        />
+      </View>
+
+      <View style={[styles.gameInfo, {marginTop: 10}]}>
+        <AppText
+          fontFamily="CaprasimoRegular"
+          fontSize="ExtraLarge"
+          color="Coral">
+          Mistakes Left: {currentMistakes} of{' '}
+          <AppText
+            fontFamily="CaprasimoRegular"
+            fontSize="ExtraLarge"
+            color="EnglishViolet">
+            {gameState.mistakes}
+          </AppText>
+        </AppText>
+
+        <AppButton
+          title="Next"
+          disabled={!isAnswerChosen}
           containerStyle={styles.restartButtonContainer}
           textStyle={styles.restartButtonText}
           onPress={restartGame}

@@ -1,9 +1,15 @@
-import {useGameContext} from '@context/gameContext';
+import useGameStore from '@store/zustandStore';
 
 const useHeader = () => {
-  const {currentRound, restartGame} = useGameContext();
+  const {currentRound, restartGame, currentMistakes, isAnswerChosen} =
+    useGameStore(state => ({
+      currentRound: state.currentRound,
+      restartGame: state.restartGame,
+      currentMistakes: state.currentMistakes,
+      isAnswerChosen: state.isAnswerChosen,
+    }));
 
-  return {currentRound, restartGame};
+  return {currentRound, restartGame, currentMistakes, isAnswerChosen};
 };
 
 export default useHeader;

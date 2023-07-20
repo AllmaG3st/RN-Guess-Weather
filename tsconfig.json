@@ -17,6 +17,8 @@
       "@utils/*": ["src/utils/*"],
       "@assets": ["assets"],
       "@assets/*": ["assets/*"],
+      "@store": ["src/store"],
+      "@store/*": ["src/store/*"],
       "@context": ["src/context"],
       "@context/*": ["src/context/*"],
       "@data": ["src/data"],

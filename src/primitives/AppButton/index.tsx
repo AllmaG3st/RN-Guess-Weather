@@ -33,6 +33,7 @@ const AppButton: React.FC<Props> = ({
   containerStyle,
   textStyle,
   type = 'PRIMARY',
+  disabled,
   loading = false,
   ...props
 }) => {
@@ -54,9 +55,11 @@ const AppButton: React.FC<Props> = ({
       style={[
         styles.container,
         styles[`container_${type}`],
-        Platform.OS === 'ios' && {opacity},
+        Platform.OS === 'ios' && {opacity: disabled ? 0.3 : opacity},
+        disabled && {opacity: 0.3},
         containerStyle,
       ]}
+      disabled={disabled}
       onPressIn={_onPressIn}
       onPressOut={_onPressOut}
       {...props}>

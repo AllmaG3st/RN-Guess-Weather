@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import React, {ForwardRefRenderFunction, RefObject, forwardRef} from 'react';
+import React, {ForwardRefRenderFunction, forwardRef, memo} from 'react';
 
 import Animated from 'react-native-reanimated';
 
@@ -12,21 +12,17 @@ import styles from './styles';
 type Props = {
   name: string;
   temperature: number;
-  isFirstGuess: RefObject<boolean>;
-  toggleIsFirstGuess: () => void;
   rotateAllCards: () => void;
 };
 
 const QuizCard: ForwardRefRenderFunction<QuizCardRef, Props> = (
-  {name, temperature, isFirstGuess, toggleIsFirstGuess, rotateAllCards},
+  {name, temperature, rotateAllCards},
   ref,
 ) => {
   const {frontCardStyle, backCardStyle, onRotate} = useQuizCard({
     ref,
     name,
     temperature,
-    isFirstGuess,
-    toggleIsFirstGuess,
     rotateAllCards,
   });
 
@@ -52,4 +48,4 @@ const QuizCard: ForwardRefRenderFunction<QuizCardRef, Props> = (
   );
 };
 
-export default forwardRef(QuizCard);
+export default memo(forwardRef(QuizCard));

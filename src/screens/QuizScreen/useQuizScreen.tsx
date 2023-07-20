@@ -1,9 +1,20 @@
 import {useEffect} from 'react';
 
-import {useGameContext} from '@context/gameContext';
+import {shallow} from 'zustand/shallow';
+
+import {GAME_STATE} from '@store/data';
+import useGameStore from '@store/zustandStore';
 
 const useQuizScreen = () => {
-  const {gameState, getRandomCities} = useGameContext();
+  const {getRandomCities, gameComplexity} = useGameStore(
+    state => ({
+      getRandomCities: state.getRandomCities,
+      gameComplexity: state.gameComplexity,
+    }),
+    shallow,
+  );
+
+  const gameState = GAME_STATE[gameComplexity];
 
   useEffect(() => {
     getRandomCities();

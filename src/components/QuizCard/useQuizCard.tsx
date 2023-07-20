@@ -1,32 +1,40 @@
-import {ForwardedRef, RefObject, useImperativeHandle} from 'react';
+import {ForwardedRef, useImperativeHandle} from 'react';
+
 import {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import {shallow} from 'zustand/shallow';
 
-import {useGameContext} from '@context/gameContext';
 import {QuizCardRef} from '@screens/QuizScreen/types';
+import useGameStore from '@store/zustandStore';
 
 type Props = {
   ref: ForwardedRef<QuizCardRef>;
   name: string;
   temperature: number;
-  isFirstGuess: RefObject<boolean>;
-  toggleIsFirstGuess: () => void;
   rotateAllCards: () => void;
 };
 
-const useQuizCard = ({
-  ref,
-  name,
-  temperature,
-  isFirstGuess,
-  toggleIsFirstGuess,
-  rotateAllCards,
-}: Props) => {
-  const {currentCorrectAnswer, onAnswerChoose} = useGameContext();
+const useQuizCard = ({ref, name, temperature, rotateAllCards}: Props) => {
+  const {
+    currentCorrectAnswer,
+    onAnswerChoose,
+    isAnswerChosen,
+    setIsAnswerChosen,
+  } = useGameStore(
+    state => ({
+      isAnswerChosen: state.isAnswerChosen,
+      currentCorrectAnswer: state.currentCorrectAnswer,
+      onAnswerChoose: state.onAnswerChoose,
+      setIsAnswerChosen: state.setIsAnswerChosen,
+    }),
+    shallow,
+  );
+
+  const isAnswerCorrect = currentCorrectAnswer?.temperature === temperature;
 
   const rotate = useSharedValue(0);
   const borderOpacity = useSharedValue(0.2);
@@ -34,7 +42,7 @@ const useQuizCard = ({
   const backCardBorderColor = (opacity: number) => {
     'worklet';
 
-    return currentCorrectAnswer?.temperature === temperature
+    return isAnswerCorrect
       ? `rgba(11, 224, 15, ${opacity})`
       : `rgba(222, 22, 22, ${opacity})`;
   };
@@ -50,7 +58,7 @@ const useQuizCard = ({
   const onRotate = () => {
     if (rotate.value === 180) return;
 
-    if (isFirstGuess.current)
+    if (!isAnswerChosen)
       onAnswerChoose({
         name,
         temperature,
@@ -60,7 +68,7 @@ const useQuizCard = ({
     rotate.value = withTiming(180, {duration: 500});
 
     setTimeout(() => rotateAllCards(), 1000);
-    toggleIsFirstGuess();
+    setIsAnswerChosen(true);
   };
 
   useImperativeHandle(ref, () => ({

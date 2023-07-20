@@ -3,7 +3,7 @@ import {PropsWithChildren, createContext, useState} from 'react';
 
 import {navigationRef} from '@navigation';
 import cities from '../data/cityNames.json';
-import {CITIES_LENGTH, GAME_STATE} from './data';
+import {CITIES_LENGTH, GAME_STATE} from '../store/data';
 import {getSeveralCitiesWeather} from '@api/weather';
 import {IGetWeatherByCityNameResponse} from '@api/types';
 import {IGameComplexity, IGameContext, IGameHistory} from './types';
@@ -15,6 +15,9 @@ export const GameContext = createContext<IGameContext>({
   gameComplexity: 'easy',
   currentRoundVariants: [],
   currentCorrectAnswer: undefined,
+  currentMistakes: GAME_STATE.easy.mistakes,
+  isAnswerChosen: false,
+  toggleIsAnswerChosen: () => {},
   onNextRound: () => {},
   restartGame: () => {},
   onAnswerChoose: () => {},
@@ -29,6 +32,8 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const [gameComplexity, setGameComplexity] = useState<IGameComplexity>('easy');
 
   const [currentRound, setCurrentRound] = useState(1);
+
+  const [isAnswerChosen, setIsAnswerChosen] = useState(false);
   const [currentRoundVariants, setCurrentRoundVariants] = useState<
     IGetWeatherByCityNameResponse[]
   >([]);
@@ -38,8 +43,15 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const currentGameHistory = useRef([] as IGameHistory[]);
   const gameState = useMemo(() => GAME_STATE[gameComplexity], [gameComplexity]);
 
+  const [currentMistakes, setCurrentMistakes] = useState(gameState.mistakes);
+
+  const toggleIsAnswerChosen = useCallback(() => {
+    setIsAnswerChosen(true);
+  }, []);
+
   const onNextRound = useCallback(() => {
     setCurrentRound(prev => prev + 1);
+    setIsAnswerChosen(false);
   }, []);
 
   const onAnswerChoose = useCallback(
@@ -62,6 +74,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
     });
 
     currentGameHistory.current = [];
+    setIsAnswerChosen(false);
   }, []);
 
   const getRandomCities = useCallback(async () => {
@@ -103,8 +116,11 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         loading,
         gameState,
         gameComplexity,
+        isAnswerChosen,
+        currentMistakes,
         currentRoundVariants,
         currentCorrectAnswer,
+        toggleIsAnswerChosen,
         restartGame,
         onNextRound,
         onAnswerChoose,
