@@ -1,15 +1,31 @@
 import useGameStore from '@store/zustandStore';
+import {shallow} from 'zustand/shallow';
 
 const useHeader = () => {
-  const {currentRound, restartGame, currentMistakes, isAnswerChosen} =
-    useGameStore(state => ({
+  const {
+    currentRound,
+    restartGame,
+    onNextRound,
+    currentMistakes,
+    isAnswerChosen,
+  } = useGameStore(
+    state => ({
       currentRound: state.currentRound,
       restartGame: state.restartGame,
       currentMistakes: state.currentMistakes,
       isAnswerChosen: state.isAnswerChosen,
-    }));
+      onNextRound: state.onNextRound,
+    }),
+    shallow,
+  );
 
-  return {currentRound, restartGame, currentMistakes, isAnswerChosen};
+  return {
+    currentRound,
+    restartGame,
+    currentMistakes,
+    isAnswerChosen,
+    onNextRound,
+  };
 };
 
 export default useHeader;

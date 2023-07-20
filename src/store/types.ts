@@ -12,11 +12,14 @@ export type IGameStore = {
   currentMistakes: number;
   currentRoundVariants: IGetWeatherByCityNameResponse[];
   currentCorrectAnswer: IGetWeatherByCityNameResponse | undefined;
+  onMistake: () => void;
   setRound: (round: number) => void;
   onNextRound: () => void;
   getRandomCities: () => Promise<void>;
   restartGame: () => void;
 
+  finishModalVisible: boolean;
+  setFinishModalVisible: (visible: boolean) => void;
   isAnswerChosen: boolean;
   setIsAnswerChosen: (isAnswerChosen: boolean) => void;
   onAnswerChoose: (userAnswer: IGetWeatherByCityNameResponse) => void;

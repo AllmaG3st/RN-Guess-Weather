@@ -6,10 +6,23 @@ import {GAME_STATE} from '@store/data';
 import useGameStore from '@store/zustandStore';
 
 const useQuizScreen = () => {
-  const {getRandomCities, gameComplexity} = useGameStore(
+  const {
+    gameComplexity,
+    currentRound,
+    currentMistakes,
+    finishModalVisible,
+    restartGame,
+    getRandomCities,
+    setFinishModalVisible,
+  } = useGameStore(
     state => ({
-      getRandomCities: state.getRandomCities,
+      currentRound: state.currentRound,
       gameComplexity: state.gameComplexity,
+      finishModalVisible: state.finishModalVisible,
+      setFinishModalVisible: state.setFinishModalVisible,
+      restartGame: state.restartGame,
+      getRandomCities: state.getRandomCities,
+      currentMistakes: state.currentMistakes,
     }),
     shallow,
   );
@@ -18,10 +31,14 @@ const useQuizScreen = () => {
 
   useEffect(() => {
     getRandomCities();
-  }, [getRandomCities]);
+  }, [getRandomCities, currentRound]);
 
   return {
     gameState,
+    restartGame,
+    currentMistakes,
+    finishModalVisible,
+    setFinishModalVisible,
   };
 };
 

@@ -9,7 +9,7 @@ import {IGameComplexity} from '@context/types';
 import {getSeveralCitiesWeather} from '@api/weather';
 import {IGetWeatherByCityNameResponse} from '@api/types';
 
-const useGameStore = create<IGameStore>()((set, get) => ({
+const useGameStore = create<IGameStore>((set, get) => ({
   loading: false,
   gameComplexity: 'easy',
   setLoading: (loading: boolean) => set({loading}),
@@ -21,8 +21,17 @@ const useGameStore = create<IGameStore>()((set, get) => ({
   currentMistakes: GAME_STATE.easy.mistakes,
   currentRoundVariants: [],
   currentCorrectAnswer: undefined,
+  onMistake: () => set({currentMistakes: get().currentMistakes - 1}),
   setRound: (round: number) => set({currentRound: round}),
-  onNextRound: () => set({currentRound: get().currentRound + 1}),
+  onNextRound: () => {
+    set({
+      currentRound: Math.min(
+        get().currentRound + 1,
+        GAME_STATE[get().gameComplexity].rounds,
+      ),
+    });
+    get().setIsAnswerChosen(false);
+  },
   getRandomCities: async () => {
     get().setLoading(true);
 
@@ -72,6 +81,9 @@ const useGameStore = create<IGameStore>()((set, get) => ({
     });
   },
 
+  finishModalVisible: false,
+  setFinishModalVisible: (visible: boolean) =>
+    set({finishModalVisible: visible}),
   isAnswerChosen: false,
   onAnswerChoose: (userAnswer: IGetWeatherByCityNameResponse) => {
     set({

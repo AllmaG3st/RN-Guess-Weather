@@ -1,3 +1,4 @@
+import {COLORS} from '@constants/colors';
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
@@ -29,6 +30,9 @@ export default StyleSheet.create({
     fontSize: 18,
     lineHeight: 20,
   },
+  separator: {
+    height: 10,
+  },
 
   // ===== CARDS STYLES =====
   cardsContainer: {
@@ -43,5 +47,27 @@ export default StyleSheet.create({
   },
   cityButtonText: {
     fontSize: 18,
+  },
+
+  // ===== MODAL STYLES =====
+  modalWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    backgroundColor: COLORS.AppWhite,
+    padding: 32,
+    borderRadius: 24,
+    width: '80%',
+
+    alignItems: 'center',
+  },
+  mistakesText: {
+    marginVertical: 16,
+  },
+  modalButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 16,
   },
 });
