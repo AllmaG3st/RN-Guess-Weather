@@ -45,7 +45,7 @@ const Header: React.FC<Props> = ({gameState}) => {
           currentMistakes < 0 ? 0 : currentMistakes
         } of `}
         outerText={gameState.mistakes}
-        buttonTitle="Next"
+        buttonTitle={currentRound === gameState.rounds ? 'Finish' : 'Next'}
         onButtonPress={onNextRound}
         disabled={!isAnswerChosen}
       />

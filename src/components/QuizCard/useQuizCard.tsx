@@ -8,8 +8,8 @@ import {
 } from 'react-native-reanimated';
 import {shallow} from 'zustand/shallow';
 
-import {QuizCardRef} from '@screens/QuizScreen/types';
 import useGameStore from '@store/zustandStore';
+import {QuizCardRef} from '@screens/QuizScreen/types';
 
 type Props = {
   ref: ForwardedRef<QuizCardRef>;

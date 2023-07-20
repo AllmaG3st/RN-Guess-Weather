@@ -6,23 +6,11 @@ import {GAME_STATE} from '@store/data';
 import useGameStore from '@store/zustandStore';
 
 const useQuizScreen = () => {
-  const {
-    gameComplexity,
-    currentRound,
-    currentMistakes,
-    finishModalVisible,
-    restartGame,
-    getRandomCities,
-    setFinishModalVisible,
-  } = useGameStore(
+  const {gameComplexity, currentRound, getRandomCities} = useGameStore(
     state => ({
       currentRound: state.currentRound,
       gameComplexity: state.gameComplexity,
-      finishModalVisible: state.finishModalVisible,
-      setFinishModalVisible: state.setFinishModalVisible,
-      restartGame: state.restartGame,
       getRandomCities: state.getRandomCities,
-      currentMistakes: state.currentMistakes,
     }),
     shallow,
   );
@@ -35,10 +23,6 @@ const useQuizScreen = () => {
 
   return {
     gameState,
-    restartGame,
-    currentMistakes,
-    finishModalVisible,
-    setFinishModalVisible,
   };
 };
 

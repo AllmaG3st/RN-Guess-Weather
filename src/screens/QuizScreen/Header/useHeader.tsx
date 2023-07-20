@@ -1,5 +1,6 @@
-import useGameStore from '@store/zustandStore';
 import {shallow} from 'zustand/shallow';
+
+import useGameStore from '@store/zustandStore';
 
 const useHeader = () => {
   const {

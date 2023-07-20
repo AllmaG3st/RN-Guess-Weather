@@ -20,6 +20,8 @@ const Cards: React.FC<Props> = ({gameState}) => {
 
   if (loading) return <AnimatedSkeleton gameState={gameState} />;
 
+  console.log(currentRoundVariants);
+
   return (
     <View style={styles.cardsContainer}>
       {currentRoundVariants.map(({name, temperature}, index) => {

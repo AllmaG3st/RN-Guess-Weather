@@ -24,6 +24,11 @@ const useGameStore = create<IGameStore>((set, get) => ({
   onMistake: () => set({currentMistakes: get().currentMistakes - 1}),
   setRound: (round: number) => set({currentRound: round}),
   onNextRound: () => {
+    if (get().currentRound === GAME_STATE[get().gameComplexity].rounds) {
+      get().setFinishModalVisible(true);
+      return;
+    }
+
     set({
       currentRound: Math.min(
         get().currentRound + 1,
