@@ -8,10 +8,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import uuid from 'react-native-uuid';
 
+import {COLORS} from '@constants/colors';
 import {IGameState} from '@context/types';
 
 import styles from './styles';
-import {COLORS} from '@constants/colors';
 
 type Props = {
   gameState: IGameState;

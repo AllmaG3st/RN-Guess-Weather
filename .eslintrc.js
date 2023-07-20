@@ -7,6 +7,7 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
       rules: {
+        curly: 'off',
         '@typescript-eslint/no-shadow': ['warn'],
         '@typescript-eslint/no-unused-vars': ['warn'],
         'no-shadow': 'off',

@@ -1,19 +1,19 @@
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 
-import useQuizScreen from './useQuizScreen';
+import useHeader from './useHeader';
+import {IGameState} from '@context/types';
 import {AppButton, AppText} from '@primitives';
 
-import styles from './styles';
-import {IGameState} from '@context/types';
+import styles from '../styles';
 
 type Props = {
-  currentRound: number;
   gameState: IGameState;
-  restartGame: () => void;
 };
 
-const Header: React.FC<Props> = ({currentRound, gameState, restartGame}) => {
+const Header: React.FC<Props> = ({gameState}) => {
+  const {currentRound, restartGame} = useHeader();
+
   return (
     <View style={styles.headerContainer}>
       <AppText

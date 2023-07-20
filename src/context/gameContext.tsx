@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext, useMemo} from 'react';
 import {PropsWithChildren, createContext, useState} from 'react';
 
 import {navigationRef} from '@navigation';
@@ -37,11 +37,11 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const [currentCorrectAnswer, setCurrentCorrectAnswer] =
     useState<IGetWeatherByCityNameResponse>();
 
-  const gameState = GAME_STATE[gameComplexity];
+  const gameState = useMemo(() => GAME_STATE[gameComplexity], [gameComplexity]);
 
-  const onNextRound = () => {
+  const onNextRound = useCallback(() => {
     setCurrentRound(prev => prev + 1);
-  };
+  }, []);
 
   const onAnswerChoose = (userAnswer: IGetWeatherByCityNameResponse) => {
     setCurrentGameHistory(prev => [
@@ -53,16 +53,16 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
     ]);
   };
 
-  const restartGame = () => {
+  const restartGame = useCallback(() => {
     setCurrentRoundVariants([]);
     setCurrentRound(1);
     navigationRef.reset({
       index: 1,
       routes: [{name: 'HomeScreen'}],
     });
-  };
+  }, []);
 
-  const getRandomCities = async () => {
+  const getRandomCities = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -92,7 +92,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
       // Setting timeout because request is resolving too fast and loader is not visible
       setTimeout(() => setLoading(false), 1000);
     }
-  };
+  }, [gameComplexity]);
 
   return (
     <GameContext.Provider

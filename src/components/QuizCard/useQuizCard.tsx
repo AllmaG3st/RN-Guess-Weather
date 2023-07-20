@@ -1,6 +1,5 @@
-import {ForwardedRef, useImperativeHandle, useState} from 'react';
+import {ForwardedRef, useImperativeHandle} from 'react';
 import {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -17,8 +16,6 @@ type Props = {
 };
 
 const useQuizCard = ({temperature, rotateAllCards, ref}: Props) => {
-  const [rotateValue, setRotateValue] = useState(0);
-
   const {currentCorrectAnswer} = useGameContext();
 
   const rotate = useSharedValue(0);
@@ -41,30 +38,22 @@ const useQuizCard = ({temperature, rotateAllCards, ref}: Props) => {
   }));
 
   const onRotate = () => {
-    borderOpacity.value = withRepeat(withTiming(1, {duration: 300}), 5, true);
-    rotate.value = withTiming(
-      rotate.value === 180 ? 0 : 180,
-      {duration: 500},
-      () => runOnJS(setRotateValue)(rotate.value),
-    );
+    if (rotate.value === 180) return;
 
-    setTimeout(() => rotateAllCards(), 1200);
+    borderOpacity.value = withRepeat(withTiming(1, {duration: 300}), 5, true);
+    rotate.value = withTiming(180, {duration: 500});
+
+    setTimeout(() => rotateAllCards(), 1000);
   };
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      rotateValue,
-      onRotate,
-    }),
-    [rotateValue],
-  );
+  useImperativeHandle(ref, () => ({
+    onRotate,
+  }));
 
   return {
     onRotate,
     frontCardStyle,
     backCardStyle,
-    rotateValue,
   };
 };
 

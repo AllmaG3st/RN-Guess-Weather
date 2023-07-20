@@ -34,8 +34,7 @@ const QuizCard: ForwardRefRenderFunction<QuizCardRef, Props> = (
 
       <Animated.View style={[styles.backCard, backCardStyle]}>
         <AppButton
-          onPress={onRotate}
-          title={temperature}
+          title={`${name}: ${temperature}`}
           containerStyle={styles.container}
           textStyle={styles.text}
         />
