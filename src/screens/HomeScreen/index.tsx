@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, SafeAreaView, Text} from 'react-native';
 
-import Animated, {useSharedValue, withTiming} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import useHomeScreen from './useHomeScreen';
-import DifficultyButton from '@components/DifficultyButton';
+import {DifficultyButton} from '@components';
 
 import styles from './styles';
 

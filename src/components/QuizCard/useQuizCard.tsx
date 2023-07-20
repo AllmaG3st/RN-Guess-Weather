@@ -1,4 +1,4 @@
-import {ForwardedRef, useImperativeHandle} from 'react';
+import {ForwardedRef, RefObject, useImperativeHandle} from 'react';
 import {
   useAnimatedStyle,
   useSharedValue,
@@ -10,13 +10,23 @@ import {useGameContext} from '@context/gameContext';
 import {QuizCardRef} from '@screens/QuizScreen/types';
 
 type Props = {
-  temperature: number;
-  rotateAllCards: () => void;
   ref: ForwardedRef<QuizCardRef>;
+  name: string;
+  temperature: number;
+  isFirstGuess: RefObject<boolean>;
+  toggleIsFirstGuess: () => void;
+  rotateAllCards: () => void;
 };
 
-const useQuizCard = ({temperature, rotateAllCards, ref}: Props) => {
-  const {currentCorrectAnswer} = useGameContext();
+const useQuizCard = ({
+  ref,
+  name,
+  temperature,
+  isFirstGuess,
+  toggleIsFirstGuess,
+  rotateAllCards,
+}: Props) => {
+  const {currentCorrectAnswer, onAnswerChoose} = useGameContext();
 
   const rotate = useSharedValue(0);
   const borderOpacity = useSharedValue(0.2);
@@ -40,10 +50,17 @@ const useQuizCard = ({temperature, rotateAllCards, ref}: Props) => {
   const onRotate = () => {
     if (rotate.value === 180) return;
 
+    if (isFirstGuess.current)
+      onAnswerChoose({
+        name,
+        temperature,
+      });
+
     borderOpacity.value = withRepeat(withTiming(1, {duration: 300}), 5, true);
     rotate.value = withTiming(180, {duration: 500});
 
     setTimeout(() => rotateAllCards(), 1000);
+    toggleIsFirstGuess();
   };
 
   useImperativeHandle(ref, () => ({

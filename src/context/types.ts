@@ -10,6 +10,7 @@ export type IGameContext = {
   setGameComplexity: (complexity: IGameComplexity) => void;
   restartGame: () => void;
   onNextRound: () => void;
+  onAnswerChoose: (answer: IGetWeatherByCityNameResponse) => void;
   getRandomCities: () => void;
 };
 
@@ -19,7 +20,9 @@ export type IGameState = {
 };
 
 export type IGameHistory = {
-  variants: IGetWeatherByCityNameResponse[];
+  round: number;
+  variants?: IGetWeatherByCityNameResponse[];
+  correctAnswer: IGetWeatherByCityNameResponse;
   userAnswer: IGetWeatherByCityNameResponse;
 };
 

@@ -1,12 +1,12 @@
-import React, {useCallback, useContext, useMemo} from 'react';
+import React, {useCallback, useContext, useMemo, useRef} from 'react';
 import {PropsWithChildren, createContext, useState} from 'react';
 
 import {navigationRef} from '@navigation';
 import cities from '../data/cityNames.json';
 import {CITIES_LENGTH, GAME_STATE} from './data';
 import {getSeveralCitiesWeather} from '@api/weather';
-import {IGameComplexity, IGameContext, IGameHistory} from './types';
 import {IGetWeatherByCityNameResponse} from '@api/types';
+import {IGameComplexity, IGameContext, IGameHistory} from './types';
 
 export const GameContext = createContext<IGameContext>({
   currentRound: 1,
@@ -17,6 +17,7 @@ export const GameContext = createContext<IGameContext>({
   currentCorrectAnswer: undefined,
   onNextRound: () => {},
   restartGame: () => {},
+  onAnswerChoose: () => {},
   setGameComplexity: () => {},
   getRandomCities: () => {},
 });
@@ -27,9 +28,6 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const [loading, setLoading] = useState(false);
   const [gameComplexity, setGameComplexity] = useState<IGameComplexity>('easy');
 
-  const [currentGameHistory, setCurrentGameHistory] = useState<IGameHistory[]>(
-    [],
-  );
   const [currentRound, setCurrentRound] = useState(1);
   const [currentRoundVariants, setCurrentRoundVariants] = useState<
     IGetWeatherByCityNameResponse[]
@@ -37,21 +35,23 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const [currentCorrectAnswer, setCurrentCorrectAnswer] =
     useState<IGetWeatherByCityNameResponse>();
 
+  const currentGameHistory = useRef([] as IGameHistory[]);
   const gameState = useMemo(() => GAME_STATE[gameComplexity], [gameComplexity]);
 
   const onNextRound = useCallback(() => {
     setCurrentRound(prev => prev + 1);
   }, []);
 
-  const onAnswerChoose = (userAnswer: IGetWeatherByCityNameResponse) => {
-    setCurrentGameHistory(prev => [
-      ...prev,
-      {
-        variants: currentRoundVariants,
-        userAnswer: userAnswer,
-      },
-    ]);
-  };
+  const onAnswerChoose = useCallback(
+    (userAnswer: IGetWeatherByCityNameResponse) => {
+      currentGameHistory.current.push({
+        round: currentRound,
+        userAnswer,
+        correctAnswer: currentCorrectAnswer as IGetWeatherByCityNameResponse,
+      });
+    },
+    [currentCorrectAnswer, currentRound],
+  );
 
   const restartGame = useCallback(() => {
     setCurrentRoundVariants([]);
@@ -60,6 +60,8 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
       index: 1,
       routes: [{name: 'HomeScreen'}],
     });
+
+    currentGameHistory.current = [];
   }, []);
 
   const getRandomCities = useCallback(async () => {
@@ -105,6 +107,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         currentCorrectAnswer,
         restartGame,
         onNextRound,
+        onAnswerChoose,
         setGameComplexity,
         getRandomCities,
       }}>

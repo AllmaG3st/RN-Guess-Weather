@@ -5,8 +5,8 @@ import uuid from 'react-native-uuid';
 
 import useCards from './useCards';
 import {QuizCardRef} from '../types';
+import {QuizCard} from '@components';
 import {IGameState} from '@context/types';
-import QuizCard from '@components/QuizCard';
 import AnimatedSkeleton from '../AnimatedSkeleton';
 
 import styles from '../styles';
@@ -16,7 +16,14 @@ type Props = {
 };
 
 const Cards: React.FC<Props> = ({gameState}) => {
-  const {loading, currentRoundVariants, cardRefs, rotateAllCards} = useCards();
+  const {
+    loading,
+    currentRoundVariants,
+    cardRefs,
+    isFirstGuess,
+    toggleIsFirstGuess,
+    rotateAllCards,
+  } = useCards();
 
   if (loading) return <AnimatedSkeleton gameState={gameState} />;
 
@@ -29,6 +36,8 @@ const Cards: React.FC<Props> = ({gameState}) => {
             rotateAllCards={rotateAllCards}
             key={uuid.v4() as Key}
             name={name}
+            isFirstGuess={isFirstGuess}
+            toggleIsFirstGuess={toggleIsFirstGuess}
             temperature={temperature}
           />
         );

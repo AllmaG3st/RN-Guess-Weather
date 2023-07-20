@@ -7,6 +7,9 @@ const useCards = () => {
 
   const cardRefs = useRef<QuizCardRef[]>([]);
 
+  const isFirstGuess = useRef(true);
+  const toggleIsFirstGuess = () => (isFirstGuess.current = false);
+
   const rotateAllCards = () => {
     cardRefs.current.forEach((cardRef, index) => {
       if (cardRef) {
@@ -15,7 +18,14 @@ const useCards = () => {
     });
   };
 
-  return {currentRoundVariants, loading, cardRefs, rotateAllCards};
+  return {
+    currentRoundVariants,
+    loading,
+    cardRefs,
+    isFirstGuess,
+    toggleIsFirstGuess,
+    rotateAllCards,
+  };
 };
 
 export default useCards;
