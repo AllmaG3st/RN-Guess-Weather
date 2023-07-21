@@ -1,6 +1,7 @@
-import React, {memo, useState} from 'react';
 import {Text, View} from 'react-native';
+import React, {Key, memo, useState} from 'react';
 
+import uuid from 'react-native-uuid';
 import {format, parseISO} from 'date-fns';
 import Animated, {useSharedValue, withTiming} from 'react-native-reanimated';
 
@@ -15,8 +16,9 @@ type Props = {
   gameHistory: IGameHistory;
 };
 
+//TODO: Refactor this component
+
 const SingleHistory: React.FC<Props> = ({gameHistory}) => {
-  //animate view with additional info
   const additionalInfoOpacity = useSharedValue(0);
 
   const [additionalInfo, setAdditionalInfo] = useState(false);
@@ -39,6 +41,7 @@ const SingleHistory: React.FC<Props> = ({gameHistory}) => {
             color="EnglishViolet">
             Date: {format(parseISO(gameHistory.date), 'MMMM dd, HH:mm')}
           </AppText>
+
           <AppText
             fontFamily="CaprasimoRegular"
             fontSize="Large"
@@ -48,6 +51,7 @@ const SingleHistory: React.FC<Props> = ({gameHistory}) => {
               Outcome: {gameHistory.game_won ? 'Won' : 'Lost'}
             </Text>
           </AppText>
+
           <AppText
             fontFamily="CaprasimoRegular"
             fontSize="Large"
@@ -57,6 +61,7 @@ const SingleHistory: React.FC<Props> = ({gameHistory}) => {
               gameHistory.difficulty?.slice(1)}
           </AppText>
         </View>
+
         <AppButton
           title={'Reveal'}
           type="TERTIARY"
@@ -88,6 +93,7 @@ const SingleHistory: React.FC<Props> = ({gameHistory}) => {
                   {round.variants.map((variant, index) => {
                     return (
                       <AppText
+                        key={uuid.v4() as Key}
                         fontFamily="CaprasimoRegular"
                         fontSize="Medium"
                         color="Coral">

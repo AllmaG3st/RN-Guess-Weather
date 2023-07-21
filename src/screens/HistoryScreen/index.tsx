@@ -3,13 +3,16 @@ import {SafeAreaView, FlatList} from 'react-native';
 
 import {AppButton, AppText} from '@primitives';
 import useHistoryScreen from './useHistoryScreen';
+import ListEmptyComponent from '@components/ListEmptyComponent';
+
 import styles from './styles';
 
+// TODO: Add sorting by date
 const HistoryScreen: React.FC = () => {
   const {gameHistories, onPlayAgain, renderSingleHistory} = useHistoryScreen();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <AppText
         centered
         fontFamily="CaprasimoRegular"
@@ -27,6 +30,9 @@ const HistoryScreen: React.FC = () => {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={gameHistories}
+        ListEmptyComponent={
+          <ListEmptyComponent text="You don't have any finished games yet :(" />
+        }
         renderItem={renderSingleHistory}
       />
     </SafeAreaView>
