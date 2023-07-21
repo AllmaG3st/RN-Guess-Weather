@@ -2,7 +2,7 @@ import {View} from 'react-native';
 import React from 'react';
 
 import Row from './Row';
-import {AppText} from '@primitives';
+import {AppButton, AppText} from '@primitives';
 import useHeader from './useHeader';
 import {IGameState} from '@store/types';
 
@@ -10,15 +10,18 @@ import styles from '../styles';
 
 type Props = {
   gameState: IGameState;
+  loading: boolean;
 };
 
-const Header: React.FC<Props> = ({gameState}) => {
+const Header: React.FC<Props> = ({gameState, loading}) => {
   const {
     currentRound,
+    currentHelp,
     restartGame,
     currentMistakes,
     isAnswerChosen,
     onNextRound,
+    onHelpPress,
   } = useHeader();
 
   return (
@@ -49,6 +52,18 @@ const Header: React.FC<Props> = ({gameState}) => {
         onButtonPress={onNextRound}
         disabled={!isAnswerChosen}
       />
+
+      {currentHelp ? (
+        <AppButton
+          type="SECONDARY"
+          onPress={onHelpPress}
+          title={'50/50'}
+          disabled={isAnswerChosen || loading}
+          containerStyle={styles.helpButton}
+        />
+      ) : (
+        <View style={styles.emptyContainer} />
+      )}
     </View>
   );
 };

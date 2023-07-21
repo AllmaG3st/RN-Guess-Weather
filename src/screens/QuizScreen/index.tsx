@@ -10,11 +10,11 @@ import FinishModal from './FinishModal/FinishModal';
 import styles from './styles';
 
 const QuizScreen: React.FC = () => {
-  const {gameState} = useQuizScreen();
+  const {gameState, loading} = useQuizScreen();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header gameState={gameState} />
+      <Header gameState={gameState} loading={loading} />
 
       <Cards gameState={gameState} />
 

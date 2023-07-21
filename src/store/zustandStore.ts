@@ -1,24 +1,42 @@
 import uuid from 'react-native-uuid';
 import {create} from 'zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {IGameComplexity, IGameStore} from './types';
 import cities from '../data/cityNames.json';
 import {CITIES_LENGTH, GAME_STATE} from './data';
+import {IGameComplexity, IGameStore} from './types';
 
 import {navigationRef} from '@navigation';
 import {getSeveralCitiesWeather} from '@api/weather';
 import {IGetWeatherByCityNameResponse} from '@api/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {fiftyFiftyHelp} from '@utils/fiftyFiftyHelp';
 
 const useGameStore = create<IGameStore>((set, get) => ({
   loading: false,
   gameComplexity: 'easy',
   setLoading: (loading: boolean) => set({loading}),
-  setGameComplexity: (complexity: IGameComplexity) =>
-    set({gameComplexity: complexity}),
+  setGameComplexity: (complexity: IGameComplexity) => {
+    set({
+      gameComplexity: complexity,
+      currentHelp: GAME_STATE[complexity].help,
+      currentMistakes: GAME_STATE[complexity].mistakes,
+    });
+  },
 
   currentRound: 1,
   currentGameHistory: [],
+  currentHelp: GAME_STATE.easy.help,
+  onHelpUse: () => {
+    const filteredVariants = fiftyFiftyHelp(
+      get().currentRoundVariants,
+      get().gameComplexity === 'medium' ? 1 : 2,
+    );
+
+    set({
+      currentRoundVariants: filteredVariants,
+      currentHelp: (get().currentHelp as number) - 1,
+    });
+  },
   currentMistakes: GAME_STATE.easy.mistakes,
   currentRoundVariants: [],
   currentCorrectAnswer: undefined,
@@ -98,6 +116,7 @@ const useGameStore = create<IGameStore>((set, get) => ({
     set({
       currentRound: 1,
       currentGameHistory: [],
+      currentHelp: GAME_STATE[get().gameComplexity].help,
       currentMistakes: GAME_STATE.easy.mistakes,
       currentRoundVariants: [],
       currentCorrectAnswer: undefined,

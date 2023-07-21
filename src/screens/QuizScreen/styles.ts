@@ -33,6 +33,16 @@ export default StyleSheet.create({
   separator: {
     height: 10,
   },
+  helpButton: {
+    marginVertical: 12,
+    borderRadius: 20,
+    alignSelf: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 32,
+  },
+  emptyContainer: {
+    height: 46,
+  },
 
   // ===== CARDS STYLES =====
   cardsContainer: {

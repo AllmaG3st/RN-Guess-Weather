@@ -7,6 +7,8 @@ export type IGameStore = {
   setGameComplexity: (complexity: IGameComplexity) => void;
 
   currentRound: number;
+  currentHelp: number | (() => number);
+  onHelpUse: () => void;
   currentGameHistory: IRoundsHistory[];
   currentMistakes: number;
   currentRoundVariants: IGetWeatherByCityNameResponse[];

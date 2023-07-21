@@ -11,6 +11,7 @@ module.exports = {
           '@navigation': './src/navigation',
           '@primitives': './src/primitives',
           '@store': './src/store',
+          '@utils': './src/utils',
           '@constants': './src/constants',
           '@context': './src/context',
           '@screens': './src/screens',
