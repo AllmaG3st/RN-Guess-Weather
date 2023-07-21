@@ -30,4 +30,11 @@ export default StyleSheet.create({
   difficultyButtonText: {
     fontSize: 20,
   },
+
+  historyButton: {
+    marginTop: 4,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
 });

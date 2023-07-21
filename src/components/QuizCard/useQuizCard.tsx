@@ -81,7 +81,7 @@ const useQuizCard = ({ref, name, temperature, rotateAllCards}: Props) => {
     borderOpacity.value = withRepeat(withTiming(1, {duration: 300}), 5, true);
     rotate.value = withTiming(180, {duration: 500});
 
-    setTimeout(() => rotateAllCards(), 1000);
+    setTimeout(() => rotateAllCards(), 700);
 
     setIsAnswerChosen(true);
   };

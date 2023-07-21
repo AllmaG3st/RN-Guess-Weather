@@ -15,6 +15,9 @@ export default StyleSheet.create({
     borderColor: COLORS.EnglishViolet,
     borderWidth: 3,
   },
+  container_TERTIARY: {
+    backgroundColor: 'transparent',
+  },
 
   text: {
     textTransform: 'uppercase',
@@ -26,4 +29,5 @@ export default StyleSheet.create({
   text_SECONDARY: {
     color: COLORS.EnglishViolet,
   },
+  text_TERTIARY: {},
 });

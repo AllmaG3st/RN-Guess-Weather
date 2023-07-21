@@ -1,13 +1,14 @@
+import uuid from 'react-native-uuid';
 import {create} from 'zustand';
 
-import {IGameStore} from './types';
+import {IGameComplexity, IGameStore} from './types';
 import cities from '../data/cityNames.json';
 import {CITIES_LENGTH, GAME_STATE} from './data';
 
 import {navigationRef} from '@navigation';
-import {IGameComplexity} from '@context/types';
 import {getSeveralCitiesWeather} from '@api/weather';
 import {IGetWeatherByCityNameResponse} from '@api/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useGameStore = create<IGameStore>((set, get) => ({
   loading: false,
@@ -70,6 +71,24 @@ const useGameStore = create<IGameStore>((set, get) => ({
       setTimeout(() => get().setLoading(false), 700);
     }
   },
+  saveProgressToHistory: async () => {
+    const wholeGameHistory = {
+      id: uuid.v4(),
+      date: new Date(),
+      game_won: get().currentMistakes >= 0,
+      difficulty: get().gameComplexity,
+      roundsHistory: get().currentGameHistory,
+    };
+
+    try {
+      await AsyncStorage.setItem(
+        `gameHistory_${wholeGameHistory.id}`,
+        JSON.stringify(wholeGameHistory),
+      );
+    } catch (error) {
+      console.warn('Error while saving game history', error);
+    }
+  },
   restartGame: () => {
     navigationRef.reset({
       index: 1,
@@ -96,7 +115,10 @@ const useGameStore = create<IGameStore>((set, get) => ({
         ...get().currentGameHistory,
         {
           round: get().currentRound,
+          variants: get().currentRoundVariants,
           userAnswer,
+          isCorrect:
+            userAnswer.temperature === get().currentCorrectAnswer?.temperature,
           correctAnswer: get()
             .currentCorrectAnswer as IGetWeatherByCityNameResponse,
         },

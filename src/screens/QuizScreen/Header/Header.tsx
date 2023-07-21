@@ -4,7 +4,7 @@ import React from 'react';
 import Row from './Row';
 import {AppText} from '@primitives';
 import useHeader from './useHeader';
-import {IGameState} from '@context/types';
+import {IGameState} from '@store/types';
 
 import styles from '../styles';
 

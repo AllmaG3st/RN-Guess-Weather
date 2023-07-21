@@ -10,6 +10,7 @@ interface Props extends TextProps {
   bold?: boolean;
   color?: IColors;
   fontSize?: IFontSizes;
+  centered?: boolean;
   fontFamily?: IFonts;
 }
 
@@ -17,6 +18,7 @@ const AppText: React.FC<Props> = ({
   children,
   bold = false,
   fontSize = 'Medium',
+  centered = false,
   fontFamily,
   color = 'Black',
   style = {},
@@ -28,6 +30,7 @@ const AppText: React.FC<Props> = ({
         styles.text,
         bold && styles.textBold,
         color && {color: COLORS[color]},
+        centered && {textAlign: 'center'},
         fontSize && {fontSize: FONTSIZES[fontSize]},
         fontFamily && {fontFamily: FONTS[fontFamily]},
         style,

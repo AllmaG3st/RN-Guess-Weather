@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import {IGameState} from '@context/types';
+import {IGameState} from '@store/types';
 import useFinishModal from './useFinishModal';
 import {AppButton, AppModal, AppText} from '@primitives';
 

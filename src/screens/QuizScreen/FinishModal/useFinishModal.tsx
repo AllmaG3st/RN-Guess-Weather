@@ -1,23 +1,33 @@
+import {useEffect} from 'react';
+
 import {shallow} from 'zustand/shallow';
 
-import {IGameState} from '@context/types';
+import {IGameState} from '@store/types';
 import useGameStore from '@store/zustandStore';
 
 const useFinishModal = (gameState: IGameState) => {
   const {
     finishModalVisible,
     currentMistakes,
+    saveProgressToHistory,
     setFinishModalVisible,
     restartGame,
   } = useGameStore(
     state => ({
       currentMistakes: state.currentMistakes,
       finishModalVisible: state.finishModalVisible,
+      saveProgressToHistory: state.saveProgressToHistory,
       setFinishModalVisible: state.setFinishModalVisible,
       restartGame: state.restartGame,
     }),
     shallow,
   );
+
+  useEffect(() => {
+    if (finishModalVisible) {
+      saveProgressToHistory();
+    }
+  }, [saveProgressToHistory, finishModalVisible]);
 
   const modalTitle = currentMistakes >= 0 ? 'Congratulations!' : 'Game Over';
 

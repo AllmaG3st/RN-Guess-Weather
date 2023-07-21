@@ -6,7 +6,7 @@ import uuid from 'react-native-uuid';
 import useCards from './useCards';
 import {QuizCardRef} from '../types';
 import {QuizCard} from '@components';
-import {IGameState} from '@context/types';
+import {IGameState} from '@store/types';
 import AnimatedSkeleton from '../AnimatedSkeleton';
 
 import styles from '../styles';
@@ -19,8 +19,6 @@ const Cards: React.FC<Props> = ({gameState}) => {
   const {loading, currentRoundVariants, cardRefs, rotateAllCards} = useCards();
 
   if (loading) return <AnimatedSkeleton gameState={gameState} />;
-
-  console.log(currentRoundVariants);
 
   return (
     <View style={styles.cardsContainer}>

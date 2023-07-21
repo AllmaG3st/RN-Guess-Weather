@@ -9,7 +9,7 @@ import Animated, {
 import uuid from 'react-native-uuid';
 
 import {COLORS} from '@constants/colors';
-import {IGameState} from '@context/types';
+import {IGameState} from '@store/types';
 
 import styles from './styles';
 

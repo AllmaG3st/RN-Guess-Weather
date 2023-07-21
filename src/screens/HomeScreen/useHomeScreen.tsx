@@ -4,9 +4,9 @@ import {useSharedValue, withRepeat, withTiming} from 'react-native-reanimated';
 import {shallow} from 'zustand/shallow';
 import {useNavigation} from '@react-navigation/native';
 
-import {IGameComplexity} from '@context/types';
 import {MainStackNavigationGenericProp} from '@navigation/types';
 import useGameStore from '@store/zustandStore';
+import {IGameComplexity} from '@store/types';
 
 const useHomeScreen = () => {
   const {setGameComplexity} = useGameStore(
@@ -19,6 +19,8 @@ const useHomeScreen = () => {
   const {navigate} =
     useNavigation<MainStackNavigationGenericProp<'HomeScreen'>>();
   const headerTextOpacity = useSharedValue(1);
+
+  const onHistoryPress = () => navigate('HistoryScreen');
 
   const onDifficultyChange = (difficulty: IGameComplexity) => {
     setGameComplexity(difficulty);
@@ -37,7 +39,7 @@ const useHomeScreen = () => {
     toggleTextOpacity();
   }, [toggleTextOpacity]);
 
-  return {headerTextOpacity, onDifficultyChange};
+  return {headerTextOpacity, onDifficultyChange, onHistoryPress};
 };
 
 export default useHomeScreen;

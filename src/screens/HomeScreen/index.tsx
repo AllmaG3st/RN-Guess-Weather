@@ -1,25 +1,22 @@
 import React from 'react';
-import {View, SafeAreaView, Text} from 'react-native';
+import {View, SafeAreaView} from 'react-native';
 
-import Animated from 'react-native-reanimated';
-
+import Header from './Header';
 import useHomeScreen from './useHomeScreen';
 import {DifficultyButton} from '@components';
 
 import styles from './styles';
 
-const AnimatedText = Animated.createAnimatedComponent(Text);
-
 const HomeScreen = () => {
-  const {headerTextOpacity, onDifficultyChange} = useHomeScreen();
+  const {headerTextOpacity, onDifficultyChange, onHistoryPress} =
+    useHomeScreen();
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <AnimatedText style={[styles.headerText, {opacity: headerTextOpacity}]}>
-          Choose Difficulty
-        </AnimatedText>
-      </View>
+      <Header
+        headerTextOpacity={headerTextOpacity}
+        onReviewHistoryPress={onHistoryPress}
+      />
 
       <View style={styles.difficultyButtonsContainer}>
         <DifficultyButton

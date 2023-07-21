@@ -1,5 +1,4 @@
 import {IGetWeatherByCityNameResponse} from '@api/types';
-import {IGameComplexity, IGameHistory} from '@context/types';
 
 export type IGameStore = {
   loading: boolean;
@@ -8,7 +7,7 @@ export type IGameStore = {
   setGameComplexity: (complexity: IGameComplexity) => void;
 
   currentRound: number;
-  currentGameHistory: IGameHistory[];
+  currentGameHistory: IRoundsHistory[];
   currentMistakes: number;
   currentRoundVariants: IGetWeatherByCityNameResponse[];
   currentCorrectAnswer: IGetWeatherByCityNameResponse | undefined;
@@ -16,6 +15,7 @@ export type IGameStore = {
   setRound: (round: number) => void;
   onNextRound: () => void;
   getRandomCities: () => Promise<void>;
+  saveProgressToHistory: () => void;
   restartGame: () => void;
 
   finishModalVisible: boolean;
@@ -24,3 +24,27 @@ export type IGameStore = {
   setIsAnswerChosen: (isAnswerChosen: boolean) => void;
   onAnswerChoose: (userAnswer: IGetWeatherByCityNameResponse) => void;
 };
+
+export type IGameState = {
+  rounds: number;
+  variants: number;
+  mistakes: number;
+};
+
+export type IGameHistory = {
+  id: string;
+  date: string;
+  game_won: boolean;
+  difficulty: IGameComplexity;
+  roundsHistory: IRoundsHistory[];
+};
+
+export type IRoundsHistory = {
+  round: number;
+  variants: IGetWeatherByCityNameResponse[];
+  isCorrect: boolean;
+  correctAnswer: IGetWeatherByCityNameResponse;
+  userAnswer: IGetWeatherByCityNameResponse;
+};
+
+export type IGameComplexity = 'easy' | 'medium' | 'hard';

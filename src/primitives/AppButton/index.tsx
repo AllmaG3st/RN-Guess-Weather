@@ -23,7 +23,7 @@ interface Props extends PressableProps {
   containerStyle?: AnimatedStyleProp<PressableProps['style']>;
   textStyle?: TextStyle;
   loading?: boolean;
-  type?: 'PRIMARY' | 'SECONDARY';
+  type?: 'PRIMARY' | 'SECONDARY' | 'TERTIARY';
 }
 
 const AppButton: React.FC<Props> = ({
