@@ -6,7 +6,6 @@ import {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
-import {shallow} from 'zustand/shallow';
 
 import useGameStore from '@store/zustandStore';
 import {QuizCardRef} from '@screens/QuizScreen/types';
@@ -34,18 +33,15 @@ const useQuizCard = ({
     onAnswerChoose,
     setIsAnswerChosen,
     setFinishModalVisible,
-  } = useGameStore(
-    state => ({
-      isAnswerChosen: state.isAnswerChosen,
-      currentCorrectAnswer: state.currentCorrectAnswer,
-      currentMistakes: state.currentMistakes,
-      onAnswerChoose: state.onAnswerChoose,
-      onMistake: state.onMistake,
-      setIsAnswerChosen: state.setIsAnswerChosen,
-      setFinishModalVisible: state.setFinishModalVisible,
-    }),
-    shallow,
-  );
+  } = {
+    currentCorrectAnswer: useGameStore.use.currentCorrectAnswer(),
+    isAnswerChosen: useGameStore.use.isAnswerChosen(),
+    currentMistakes: useGameStore.use.currentMistakes(),
+    onMistake: useGameStore.use.onMistake(),
+    onAnswerChoose: useGameStore.use.onAnswerChoose(),
+    setIsAnswerChosen: useGameStore.use.setIsAnswerChosen(),
+    setFinishModalVisible: useGameStore.use.setFinishModalVisible(),
+  };
 
   const isAnswerCorrect = currentCorrectAnswer?.temperature === temperature;
 

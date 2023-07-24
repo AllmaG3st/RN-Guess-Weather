@@ -1,7 +1,5 @@
 import {useCallback} from 'react';
 
-import {shallow} from 'zustand/shallow';
-
 import useGameStore from '@store/zustandStore';
 
 const useHeader = () => {
@@ -13,18 +11,15 @@ const useHeader = () => {
     isAnswerChosen,
     currentHelp,
     onHelpUse,
-  } = useGameStore(
-    state => ({
-      currentRound: state.currentRound,
-      restartGame: state.restartGame,
-      currentMistakes: state.currentMistakes,
-      isAnswerChosen: state.isAnswerChosen,
-      onNextRound: state.onNextRound,
-      currentHelp: state.currentHelp,
-      onHelpUse: state.onHelpUse,
-    }),
-    shallow,
-  );
+  } = {
+    currentRound: useGameStore.use.currentRound(),
+    restartGame: useGameStore.use.restartGame(),
+    onNextRound: useGameStore.use.onNextRound(),
+    currentMistakes: useGameStore.use.currentMistakes(),
+    isAnswerChosen: useGameStore.use.isAnswerChosen(),
+    currentHelp: useGameStore.use.currentHelp(),
+    onHelpUse: useGameStore.use.onHelpUse(),
+  };
 
   const onHelpPress = useCallback(() => onHelpUse(), [onHelpUse]);
 

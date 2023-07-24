@@ -1,7 +1,5 @@
 import {useEffect} from 'react';
 
-import {shallow} from 'zustand/shallow';
-
 import {IGameState} from '@store/types';
 import useGameStore from '@store/zustandStore';
 
@@ -12,16 +10,13 @@ const useFinishModal = (gameState: IGameState) => {
     saveProgressToHistory,
     setFinishModalVisible,
     restartGame,
-  } = useGameStore(
-    state => ({
-      currentMistakes: state.currentMistakes,
-      finishModalVisible: state.finishModalVisible,
-      saveProgressToHistory: state.saveProgressToHistory,
-      setFinishModalVisible: state.setFinishModalVisible,
-      restartGame: state.restartGame,
-    }),
-    shallow,
-  );
+  } = {
+    finishModalVisible: useGameStore.use.finishModalVisible(),
+    currentMistakes: useGameStore.use.currentMistakes(),
+    saveProgressToHistory: useGameStore.use.saveProgressToHistory(),
+    setFinishModalVisible: useGameStore.use.setFinishModalVisible(),
+    restartGame: useGameStore.use.restartGame(),
+  };
 
   useEffect(() => {
     if (finishModalVisible) {

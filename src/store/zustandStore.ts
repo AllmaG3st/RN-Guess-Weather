@@ -3,16 +3,17 @@ import {create} from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import cities from '../data/cityNames.json';
+import createSelectors from './createSelectors';
 import {CITIES_LENGTH, GAME_STATE} from './data';
 import {IGameComplexity, IGameStore} from './types';
 
 import {navigationRef} from '@navigation';
 import {getSeveralCitiesWeather} from '@api/weather';
-import {IGetWeatherByCityNameResponse} from '@api/types';
 import {fiftyFiftyHelp} from '@utils/fiftyFiftyHelp';
+import {IGetWeatherByCityNameResponse} from '@api/types';
 
-const useGameStore = create<IGameStore>((set, get) => ({
-  loading: false,
+const useGameStoreBase = create<IGameStore>((set, get) => ({
+  loading: true,
   gameComplexity: 'easy',
   setLoading: (loading: boolean) => set({loading}),
   setGameComplexity: (complexity: IGameComplexity) => {
@@ -146,5 +147,7 @@ const useGameStore = create<IGameStore>((set, get) => ({
   },
   setIsAnswerChosen: (param: boolean) => set({isAnswerChosen: param}),
 }));
+
+const useGameStore = createSelectors(useGameStoreBase);
 
 export default useGameStore;

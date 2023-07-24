@@ -1,20 +1,14 @@
 import {useCallback, useEffect} from 'react';
 
-import {useSharedValue, withRepeat, withTiming} from 'react-native-reanimated';
-import {shallow} from 'zustand/shallow';
 import {useNavigation} from '@react-navigation/native';
+import {useSharedValue, withRepeat, withTiming} from 'react-native-reanimated';
 
-import {MainStackNavigationGenericProp} from '@navigation/types';
-import useGameStore from '@store/zustandStore';
 import {IGameComplexity} from '@store/types';
+import useGameStore from '@store/zustandStore';
+import {MainStackNavigationGenericProp} from '@navigation/types';
 
 const useHomeScreen = () => {
-  const {setGameComplexity} = useGameStore(
-    state => ({
-      setGameComplexity: state.setGameComplexity,
-    }),
-    shallow,
-  );
+  const setGameComplexity = useGameStore.use.setGameComplexity();
 
   const {navigate} =
     useNavigation<MainStackNavigationGenericProp<'HomeScreen'>>();

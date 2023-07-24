@@ -1,18 +1,13 @@
 import {useRef} from 'react';
 
-import {shallow} from 'zustand/shallow';
-
 import {QuizCardRef} from '../types';
 import useGameStore from '@store/zustandStore';
 
 const useCards = () => {
-  const {currentRoundVariants, loading} = useGameStore(
-    state => ({
-      currentRoundVariants: state.currentRoundVariants,
-      loading: state.loading,
-    }),
-    shallow,
-  );
+  const {currentRoundVariants, loading} = {
+    currentRoundVariants: useGameStore.use.currentRoundVariants(),
+    loading: useGameStore.use.loading(),
+  };
 
   const cardRefs = useRef<QuizCardRef[]>([]);
 
