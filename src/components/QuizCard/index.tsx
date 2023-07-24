@@ -1,4 +1,3 @@
-import {View} from 'react-native';
 import React, {ForwardRefRenderFunction, forwardRef, memo} from 'react';
 
 import Animated from 'react-native-reanimated';
@@ -12,22 +11,26 @@ import styles from './styles';
 type Props = {
   name: string;
   temperature: number;
+  index: number;
   rotateAllCards: () => void;
 };
 
 const QuizCard: ForwardRefRenderFunction<QuizCardRef, Props> = (
-  {name, temperature, rotateAllCards},
+  {name, temperature, index, rotateAllCards},
   ref,
 ) => {
-  const {frontCardStyle, backCardStyle, onRotate} = useQuizCard({
-    ref,
-    name,
-    temperature,
-    rotateAllCards,
-  });
+  const {frontCardStyle, backCardStyle, wholeCardStyle, onRotate} = useQuizCard(
+    {
+      ref,
+      name,
+      index,
+      temperature,
+      rotateAllCards,
+    },
+  );
 
   return (
-    <View>
+    <Animated.View style={wholeCardStyle}>
       <Animated.View style={[styles.frontCard, frontCardStyle]}>
         <AppButton
           onPress={onRotate}
@@ -44,7 +47,7 @@ const QuizCard: ForwardRefRenderFunction<QuizCardRef, Props> = (
           textStyle={styles.text}
         />
       </Animated.View>
-    </View>
+    </Animated.View>
   );
 };
 

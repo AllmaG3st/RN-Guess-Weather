@@ -28,6 +28,7 @@ const Cards: React.FC<Props> = ({gameState}) => {
             ref={(cardRef: QuizCardRef) => (cardRefs.current[index] = cardRef)}
             rotateAllCards={rotateAllCards}
             key={uuid.v4() as Key}
+            index={index}
             name={name}
             temperature={temperature}
           />

@@ -1,4 +1,4 @@
-import {ForwardedRef, useImperativeHandle} from 'react';
+import {ForwardedRef, useEffect, useImperativeHandle} from 'react';
 
 import {
   useAnimatedStyle,
@@ -15,10 +15,17 @@ type Props = {
   ref: ForwardedRef<QuizCardRef>;
   name: string;
   temperature: number;
+  index: number;
   rotateAllCards: () => void;
 };
 
-const useQuizCard = ({ref, name, temperature, rotateAllCards}: Props) => {
+const useQuizCard = ({
+  ref,
+  name,
+  index,
+  temperature,
+  rotateAllCards,
+}: Props) => {
   const {
     currentCorrectAnswer,
     isAnswerChosen,
@@ -44,6 +51,7 @@ const useQuizCard = ({ref, name, temperature, rotateAllCards}: Props) => {
 
   const rotate = useSharedValue(0);
   const borderOpacity = useSharedValue(0.2);
+  const translateX = useSharedValue(-500);
 
   const backCardBorderColor = (opacity: number) => {
     'worklet';
@@ -53,6 +61,9 @@ const useQuizCard = ({ref, name, temperature, rotateAllCards}: Props) => {
       : `rgba(222, 22, 22, ${opacity})`;
   };
 
+  const wholeCardStyle = useAnimatedStyle(() => ({
+    transform: [{translateX: translateX.value}],
+  }));
   const frontCardStyle = useAnimatedStyle(() => ({
     transform: [{rotateY: `${rotate.value}deg`}],
   }));
@@ -90,10 +101,15 @@ const useQuizCard = ({ref, name, temperature, rotateAllCards}: Props) => {
     onRotate,
   }));
 
+  useEffect(() => {
+    translateX.value = withTiming(0, {duration: 700 + index * 200});
+  }, [index, translateX]);
+
   return {
     onRotate,
     frontCardStyle,
     backCardStyle,
+    wholeCardStyle,
   };
 };
 
