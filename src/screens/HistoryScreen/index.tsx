@@ -7,7 +7,6 @@ import ListEmptyComponent from '@components/ListEmptyComponent';
 
 import styles from './styles';
 
-// TODO: Add sorting by date
 const HistoryScreen: React.FC = () => {
   const {gameHistories, onPlayAgain, renderSingleHistory} = useHistoryScreen();
 

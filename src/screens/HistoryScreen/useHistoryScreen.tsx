@@ -35,10 +35,14 @@ const useHistoryScreen = () => {
 
       const gameHistory = await AsyncStorage.multiGet(gameHistoryKeys);
 
-      const parsedGameHistories = gameHistory.map(history => {
-        const [key, value] = history;
-        return value ? JSON.parse(value) : undefined;
-      });
+      const parsedGameHistories = gameHistory
+        .map(history => {
+          const [_, value] = history;
+          return value ? JSON.parse(value) : undefined;
+        })
+        .sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
 
       setGameHistories(parsedGameHistories);
     } catch (error) {
