@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
 import {IGameHistory} from '@store/types';
-import SingleHistory from './SingleHistory';
+import SingleHistory from './SingleHistory/SingleHistory';
 import {MainStackNavigationGenericProp} from '@navigation/types';
 
 const useHistoryScreen = () => {

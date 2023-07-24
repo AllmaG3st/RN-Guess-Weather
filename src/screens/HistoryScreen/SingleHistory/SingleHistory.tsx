@@ -1,38 +1,38 @@
 import {Text, View} from 'react-native';
-import React, {Key, memo, useState} from 'react';
+import React, {Key, memo} from 'react';
 
 import uuid from 'react-native-uuid';
 import {format, parseISO} from 'date-fns';
-import Animated, {useSharedValue, withTiming} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {COLORS} from '@constants/colors';
 import {IGameHistory} from '@store/types';
 import {AppButton, AppText} from '@primitives';
+import useSingleHistory from './useSingleHistory';
 import AppSeparator from '@primitives/AppSeparator';
 
-import styles from './styles';
+import styles from '../styles';
 
 type Props = {
   gameHistory: IGameHistory;
 };
 
-//TODO: Refactor this component
-
 const SingleHistory: React.FC<Props> = ({gameHistory}) => {
-  const additionalInfoOpacity = useSharedValue(0);
-
-  const [additionalInfo, setAdditionalInfo] = useState(false);
-
-  const toggleAdditionalInfo = () => {
-    additionalInfoOpacity.value = withTiming(additionalInfo ? 0 : 1, {
-      duration: 500,
-    });
-
-    setAdditionalInfo(prev => !prev);
-  };
+  const {
+    containerHeight,
+    additionalInfo,
+    additionalInfoOpacity,
+    toggleAdditionalInfo,
+  } = useSingleHistory({gameHistory});
 
   return (
-    <View style={styles.historyContainer}>
+    <Animated.View
+      style={[
+        styles.historyContainer,
+        {
+          height: containerHeight,
+        },
+      ]}>
       <View style={styles.gameGeneralInfo}>
         <View>
           <AppText
@@ -70,7 +70,10 @@ const SingleHistory: React.FC<Props> = ({gameHistory}) => {
       </View>
 
       {additionalInfo && (
-        <Animated.View style={{opacity: additionalInfoOpacity}}>
+        <Animated.View
+          style={{
+            opacity: additionalInfoOpacity,
+          }}>
           <AppSeparator style={styles.separator} />
           {gameHistory.roundsHistory.map((round, index) => {
             return (
@@ -124,7 +127,7 @@ const SingleHistory: React.FC<Props> = ({gameHistory}) => {
           })}
         </Animated.View>
       )}
-    </View>
+    </Animated.View>
   );
 };
 
